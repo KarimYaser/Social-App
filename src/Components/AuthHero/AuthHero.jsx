@@ -9,8 +9,8 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { Link } from "react-router";
-
-export default function SignupHero({title,description}) {
+import karim from "../../assets/Karim.jpg"
+export default function SignupHero({ title, description }) {
   const features = [
     {
       icon: faMessage,
@@ -85,7 +85,7 @@ export default function SignupHero({title,description}) {
           <section className="feature-section">
             <h3 className="sr-only">platform features</h3> {/* not visible */}
             <ul className="feature-cards grid grid-cols-2 gap-3">
-              {features.map((f,i) => (
+              {features.map((f, i) => (
                 <li key={i} className="feature-card flex gap-2 items-center bg-white/30 rounded-lg px-4 py-2 backdrop-blur-sm border-1 border-white/20 hover:scale-103 transition-transform duration-200 cursor-pointer hover:bg-white/40">
                   <div className={`icon ${f.colors} size-10 flex justify-center items-center rounded-lg`}>
                     <FontAwesomeIcon icon={f.icon} />
@@ -103,7 +103,7 @@ export default function SignupHero({title,description}) {
               {stats.map((s, i) => (
                 <li key={i} className="stats-card">
                   <div className="icon flex gap-2 items-center">
-                    <FontAwesomeIcon className="text-xl" icon={s.icon}  />
+                    <FontAwesomeIcon className="text-xl" icon={s.icon} />
                     <span className="text-2xl font-bold">{s.number}</span>
                   </div>
                   <p>{s.label}</p>
@@ -115,14 +115,14 @@ export default function SignupHero({title,description}) {
           <figure className="testimonial mt-28 bg-white/20 backdrop-blur-sm border-1 border-white/30 rounded-lg p-4 space-y-4 hover:scale-103 transition-transform duration-200 hover:bg-white/40">
             <div className="rating-average">
               {/* {"⭐".repeat(5)} */}
-                {[...Array(5)].map((_, idx) => (
-                  <FontAwesomeIcon key={idx} icon={faStar} className="text-yellow-400 hover:scale-140 transition-transform duration-300 " />
-                ))}
+              {[...Array(5)].map((_, idx) => (
+                <FontAwesomeIcon key={idx} icon={faStar} className="text-yellow-400 hover:scale-140 transition-transform duration-300 " />
+              ))}
             </div>
             <blockquote className="text-lg italic">
               <figcaption className="author flex gap-4 items-center mt-4">
                 <img
-                  src="src\assets\Karim.jpg"
+                  src={karim}
                   className="size-12 rounded-full"
                   alt=""
                 />
