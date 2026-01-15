@@ -1,0 +1,30 @@
+@import "tailwindcss";
+
+@theme  {
+  --font-cairo: 'Cairo Variable', sans-serif; /* used in body in index.html */
+}
+
+@utility tab-* {
+  tab-size:--value(integer);
+}
+/* body {
+  font-family: 'Cairo Variable', sans-serif;
+} */
+
+@layer base{
+  span, a, label{
+    display: inline-block;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply cursor-pointer px-4 py-2 rounded-xl space-x-2 flex items-center justify-center border border-gray-400/30 text-white bg-blue-500;
+  }
+  .form-control{
+    @apply w-full px-4 py-3 pl-12 rounded-xl bg-gray-100 focus:outline-none border border-gray-400/60
+  }
+  .form-control-icon{
+    @apply text-gray-400  absolute left-4 top-1/2 -translate-y-1/2
+  }
+}
