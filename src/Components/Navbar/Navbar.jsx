@@ -9,6 +9,7 @@ import {
   faBars,
   faSignOutAlt,
   faTimes,
+  faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link, NavLink, useNavigate } from "react-router";
@@ -179,6 +180,15 @@ export default function Navbar() {
                     >
                       <FontAwesomeIcon icon={faUsers} />
                       <span>Communities</span>
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      onClick={() => handleNavigation("/profile")}
+                      className="w-full text-left space-x-2 hover:text-blue-500 transition-colors duration-300"
+                    >
+                      <FontAwesomeIcon icon={faUser} />
+                      <span>Profile</span>
                     </button>
                   </li>
                   <hr className="my-2" />

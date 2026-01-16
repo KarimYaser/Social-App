@@ -75,6 +75,10 @@ export default function Profile() {
     setIsEditingProfile(false)
   }
 
+  const handleOpenPostDetails = (post) => {
+    navigate(`/postDetails/${post.id}`, { state: { post } })
+  }
+
   return (
     <div className='profile-page bg-gray-100 min-h-screen pb-8'>
       <Navbar />
@@ -254,7 +258,13 @@ export default function Profile() {
               <h2 className='text-2xl font-bold text-gray-800 mb-6'>Posts</h2>
               {userPosts.length > 0 ? (
                 userPosts.map(post => (
-                  <PostCard key={post.id} postData={post} commentLimit={3} />
+                  <div 
+                    key={post.id} 
+                    onClick={() => handleOpenPostDetails(post)}
+                    className='cursor-pointer transition-transform duration-200 hover:scale-[1.02]'
+                  >
+                    <PostCard postData={post} commentLimit={3} />
+                  </div>
                 ))
               ) : (
                 <div className='bg-white rounded-2xl shadow-sm p-8 text-center'>
