@@ -7,11 +7,28 @@ import {
   faMagnifyingGlass,
   faPlus,
   faBars,
+  faSignOutAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Link, NavLink } from "react-router";
+import { Link, NavLink, useNavigate } from "react-router";
+import { useContext } from "react";
+import { AuthContext } from "../../Context/Auth.context";
+import { toast } from "react-toastify";
 
 export default function Navbar() {
+  const navigate = useNavigate();
+  const { setToken } = useContext(AuthContext);
+
+  const handleLogout = () => {
+    // Remove token from localStorage
+    localStorage.removeItem("token");
+    // Clear token from Auth context
+    setToken(null);
+    // Show success message
+    toast.success("Logged out successfully!");
+    // Redirect to login page
+    navigate("/login");
+  };
   return (
     <div>
       <nav className="bg-white shadow px-3 py-4 text-lg">
@@ -31,8 +48,7 @@ export default function Navbar() {
                 <NavLink
                   to="/"
                   className={({ isActive }) =>
-                    `${
-                      isActive && `text-blue-500`
+                    `${isActive && `text-blue-500`
                     } space-x-2 hover:text-blue-500 transition-colors duration-300`
                   }
                 >
@@ -44,8 +60,7 @@ export default function Navbar() {
                 <NavLink
                   to="/explore"
                   className={({ isActive }) =>
-                    `${
-                      isActive && `text-blue-500`
+                    `${isActive && `text-blue-500`
                     } space-x-2 hover:text-blue-500 transition-colors duration-300`
                   }
                 >
@@ -57,8 +72,7 @@ export default function Navbar() {
                 <NavLink
                   to="/communities"
                   className={({ isActive }) =>
-                    `${
-                      isActive && `text-blue-500`
+                    `${isActive && `text-blue-500`
                     } space-x-2 hover:text-blue-500 transition-colors duration-300`
                   }
                 >
@@ -91,6 +105,13 @@ export default function Navbar() {
             <button className="create-post-btn bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600 transition-colors duration-300 space-x-2 cursor-pointer">
               <FontAwesomeIcon icon={faPlus} />
               <span>Create Post</span>
+            </button>
+            <button 
+              onClick={handleLogout}
+              className="logout-btn bg-red-500 text-white px-4 py-2 rounded-full hover:bg-red-600 transition-colors duration-300 space-x-2 cursor-pointer"
+            >
+              <FontAwesomeIcon icon={faSignOutAlt} />
+              <span>Logout</span>
             </button>
           </div>
           <button className="text-2xl block md:hidden lg:hidden cursor-pointer">
