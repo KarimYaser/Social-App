@@ -9,6 +9,7 @@ import Profile from "./Pages/Profile/Profile";
 import PostDetails from "./Pages/PostDetails/PostDetails";
 import NotFound from "./Pages/NotFound/NotFound";
 import AuthProvider from "./Context/Auth.context";
+import PostUploadProvider from "./Context/PostUpload.context";
 import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute";
 import Settings from "./Pages/Settings/Settings";
 import AuthRoute from "./Components/AuthRoute/AuthRoute";
@@ -63,20 +64,22 @@ function App() {
   return (
     <>
       <AuthProvider>
-        <RouterProvider router={router}></RouterProvider>
-        <ToastContainer
-          position="top-right"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick={false}
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="light"
-          transition={Bounce}
-        />
+        <PostUploadProvider>
+          <RouterProvider router={router}></RouterProvider>
+          <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick={false}
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+            transition={Bounce}
+          />
+        </PostUploadProvider>
       </AuthProvider>
     </>
   );

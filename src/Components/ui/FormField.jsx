@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React from 'react'
+import React, { forwardRef } from 'react'
 
-export default function FormField({
+const FormField = forwardRef(function FormField({
     elementType,
     id,
     label,
@@ -19,7 +19,7 @@ export default function FormField({
     isExistError,
     rows,
     accept
-}) {
+}, ref) {
 
     const renderElement = () => {
         switch (elementType) {
@@ -48,7 +48,8 @@ export default function FormField({
             </>
 
             case 'textarea': return <>
-                <textarea id={id}
+                <textarea ref={ref}
+                    id={id}
                     placeholder={placeholder}
                     className={`form-control ${className}`}
                     name={name}
@@ -82,4 +83,6 @@ export default function FormField({
             {isExistError ? <p className='text-red-500'>user is already exists</p> : ""}
         </div>
     )
-}
+})
+
+export default FormField

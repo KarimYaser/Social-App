@@ -8,16 +8,20 @@ import {
   faPlus,
   faBars,
   faSignOutAlt,
+  faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link, NavLink, useNavigate } from "react-router";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "../../Context/Auth.context";
+import { PostUploadContext } from "../../Context/PostUpload.context";
 import { toast } from "react-toastify";
 
 export default function Navbar() {
   const navigate = useNavigate();
   const { setToken } = useContext(AuthContext);
+  const { textareaRef } = useContext(PostUploadContext);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleLogout = () => {
     // Remove token from localStorage
@@ -28,6 +32,27 @@ export default function Navbar() {
     toast.success("Logged out successfully!");
     // Redirect to login page
     navigate("/login");
+  };
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+  const handleNavigation = (path) => {
+    navigate(path);
+    setIsMenuOpen(false);
+  };
+
+  const handleMenuLogout = () => {
+    handleLogout();
+    setIsMenuOpen(false);
+  };
+  
+  const handleCreatePostClick = () => {
+    if (textareaRef && textareaRef.current) {
+      textareaRef.current.focus();
+      setIsMenuOpen(false);
+    }
   };
   return (
     <div>
@@ -102,7 +127,10 @@ export default function Navbar() {
                 <FontAwesomeIcon icon={faEnvelope} />
               </button>
             </div>
-            <button className="create-post-btn bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600 transition-colors duration-300 space-x-2 cursor-pointer">
+            <button 
+              onClick={handleCreatePostClick}
+              className="create-post-btn bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600 transition-colors duration-300 space-x-2 cursor-pointer"
+            >
               <FontAwesomeIcon icon={faPlus} />
               <span>Create Post</span>
             </button>
@@ -114,9 +142,68 @@ export default function Navbar() {
               <span>Logout</span>
             </button>
           </div>
-          <button className="text-2xl block md:hidden lg:hidden cursor-pointer">
-            <FontAwesomeIcon icon={faBars} />
+          <button 
+            onClick={toggleMenu}
+            className="text-2xl block md:hidden lg:hidden cursor-pointer relative"
+          >
+            <FontAwesomeIcon icon={isMenuOpen ? faTimes : faBars} />
           </button>
+
+          {/* Mobile Menu Dropdown */}
+          {isMenuOpen && (
+            <div className="absolute top-20 left-0 right-0 bg-white shadow-lg md:hidden z-50">
+              <div className="container mx-auto px-3 py-4">
+                <ul className="flex flex-col gap-4">
+                  <li>
+                    <button
+                      onClick={() => handleNavigation("/")}
+                      className="w-full text-left space-x-2 hover:text-blue-500 transition-colors duration-300"
+                    >
+                      <FontAwesomeIcon icon={faHouse} />
+                      <span>Home</span>
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      onClick={() => handleNavigation("/explore")}
+                      className="w-full text-left space-x-2 hover:text-blue-500 transition-colors duration-300"
+                    >
+                      <FontAwesomeIcon icon={faCompass} />
+                      <span>Explore</span>
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      onClick={() => handleNavigation("/communities")}
+                      className="w-full text-left space-x-2 hover:text-blue-500 transition-colors duration-300"
+                    >
+                      <FontAwesomeIcon icon={faUsers} />
+                      <span>Communities</span>
+                    </button>
+                  </li>
+                  <hr className="my-2" />
+                  <li>
+                    <button 
+                      onClick={handleCreatePostClick}
+                      className="w-full text-left bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600 transition-colors duration-300 space-x-2"
+                    >
+                      <FontAwesomeIcon icon={faPlus} />
+                      <span>Create Post</span>
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      onClick={handleMenuLogout}
+                      className="w-full text-left bg-red-500 text-white px-4 py-2 rounded-full hover:bg-red-600 transition-colors duration-300 space-x-2"
+                    >
+                      <FontAwesomeIcon icon={faSignOutAlt} />
+                      <span>Logout</span>
+                    </button>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          )}
         </div>
       </nav>
     </div>

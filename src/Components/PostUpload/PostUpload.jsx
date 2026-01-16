@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { AuthContext } from '../../Context/Auth.context'
+import { PostUploadContext } from '../../Context/PostUpload.context'
 import axios from 'axios'
 import FormField from '../ui/FormField'
 import { useFormik } from 'formik'
@@ -10,6 +11,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 export default function PostUpload({ getAllPosts }) {
     const { token, user } = useContext(AuthContext)
+    const { textareaRef } = useContext(PostUploadContext)
     // State for image preview, API errors, and loading status
     const [imagePreview, setImagePreview] = useState(null)
     const [error, setError] = useState('')
@@ -112,6 +114,7 @@ export default function PostUpload({ getAllPosts }) {
 
                 <form onSubmit={formik.handleSubmit}>
                     <FormField
+                        ref={textareaRef}
                         elementType="textarea"
                         value={formik.values.body}
                         onChange={formik.handleChange}
