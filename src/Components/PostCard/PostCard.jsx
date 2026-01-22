@@ -2,11 +2,14 @@ import { faEllipsisVertical, faHeart, faThumbsUp } from '@fortawesome/free-solid
 import { faComment, faShareFromSquare, faThumbsUp as faThumbsUpRegular } from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import CommentCard from '../CommentCard/CommentCard'
+import AddComment from '../AddComment/AddComment'
 import noImage from '../../assets/no-image.png'
 import { Link } from 'react-router'
 import noUserPhoto from '../../assets/profile.png'
+import { useState } from 'react'
 
-export default function PostCard({ postData, commentLimit }) {
+export default function PostCard({ postData, commentLimit, onRefresh }) {
+    const [showCommentBox, setShowCommentBox] = useState(false)
 
     const postDataImage = postData?.image ? postData.image : noImage
     const userPhoto = postData?.user?.photo ? postData.user.photo : noUserPhoto
@@ -61,7 +64,9 @@ export default function PostCard({ postData, commentLimit }) {
                         <FontAwesomeIcon icon={faThumbsUpRegular} />
                         <span>Like</span>
                     </button>
-                    <button className="comment-btn cursor-pointer flex items-center justify-center gap-2 p-2 w-full hover:bg-gray-100 rounded-md">
+                    <button
+                        onClick={() => setShowCommentBox(!showCommentBox)}
+                        className="comment-btn cursor-pointer flex items-center justify-center gap-2 p-2 w-full hover:bg-gray-100 rounded-md">
                         <FontAwesomeIcon icon={faComment} />
                         <span>Comment</span>
                     </button>
@@ -79,6 +84,19 @@ export default function PostCard({ postData, commentLimit }) {
                     }
                     <Link to={`/postDetails/${postData?.id}`} className='text-center bg-gray-100 shadow w-full cursor-pointer my-3 text-blue-600 px-2 py-1 rounded-md'>Show All Comments ({postData?.comments?.length ?? 0})</Link>
                 </section>
+
+                {/* Add Comment Component */}
+                {showCommentBox && (
+                    <AddComment
+                        postId={postData?.id}
+                        onCommentAdded={() => {
+                            if (onRefresh) {
+                                onRefresh() // Refresh the posts to show new comment
+                            }
+                            setShowCommentBox(false) // Hide comment box after posting
+                        }}
+                    />
+                )}
             </div>
         </>
     )

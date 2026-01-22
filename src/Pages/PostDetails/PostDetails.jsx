@@ -13,7 +13,7 @@ export default function PostDetails() {
   const location = useLocation()
   const navigate = useNavigate()
   const { token } = useContext(AuthContext);
-  
+
   const [postDetails, setPostDetails] = useState(location.state?.post || null)
   const [isLoading, setIsLoading] = useState(!location.state?.post)
 
@@ -41,26 +41,26 @@ export default function PostDetails() {
       setIsLoading(false)
     }
   }
-  
+
   useEffect(() => {
     // Only fetch from API if we don't have post data from navigation
     if (!location.state?.post) {
       getPostDetails();
     }
   }, [id, token, location.state])
-  
+
   return (
     <>
       <section>
         <div className="container max-w-3xl mx-auto px-4 py-6">
-          <button 
+          <button
             onClick={() => navigate(-1)}
             className="flex items-center gap-2 mb-6 px-4 py-2 text-blue-500 hover:bg-gray-100 rounded-lg transition-colors duration-300"
           >
             <FontAwesomeIcon icon={faArrowLeft} />
             <span>Back</span>
           </button>
-          {isLoading ? <PostCardSkeleton /> : postDetails ? <PostCard postData={postDetails} commentLimit={10} /> : <PostCardSkeleton />}
+          {isLoading ? <PostCardSkeleton /> : postDetails ? <PostCard postData={postDetails} commentLimit={10} onRefresh={getPostDetails} /> : <PostCardSkeleton />}
         </div>
       </section>
     </>

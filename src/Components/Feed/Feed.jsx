@@ -26,7 +26,7 @@ export default function Feed({ posts, getAllPosts, isLoading }) {
                             ))
                         ) : posts.length > 0 ? (
                             posts.slice(0, 10).map((post) => (
-                                <PostCard key={post._id} postData={post} commentLimit={1} />
+                                <PostCard key={post._id} postData={post} commentLimit={1} onRefresh={getAllPosts} />
                             ))
                         ) : (
                             <p className="text-gray-500 text-center py-8">No posts found</p>
