@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useRef, useEffect } from 'react'
 import { AuthContext } from '../../Context/Auth.context'
 import axios from 'axios'
 import FormField from '../ui/FormField'
@@ -10,6 +10,7 @@ export default function AddComment({ postId, onCommentAdded }) {
     const { token, user } = useContext(AuthContext)
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
+    const textareaRef = useRef(null)
 
     // Validation schema for comment
     const validationSchema = yup.object({
@@ -63,6 +64,13 @@ export default function AddComment({ postId, onCommentAdded }) {
         onSubmit: handleSubmit,
     })
 
+    // Auto-focus textarea when component mounts
+    useEffect(() => {
+        if (textareaRef.current) {
+            textareaRef.current.focus()
+        }
+    }, [])
+
     return (
         <>
             <div className='add-comment-section mt-4 pt-4 border-t border-gray-200'>
@@ -74,6 +82,7 @@ export default function AddComment({ postId, onCommentAdded }) {
                     <form onSubmit={formik.handleSubmit} className='grow'>
                         <div className='relative'>
                             <FormField
+                                ref={textareaRef}
                                 elementType="textarea"
                                 value={formik.values.content}
                                 onChange={formik.handleChange}
@@ -83,15 +92,14 @@ export default function AddComment({ postId, onCommentAdded }) {
                                 error={formik.errors.content}
                                 touched={formik.touched.content}
                                 placeholder="Write a comment..."
-                                className={`w-full p-3 border-2 rounded-xl outline-none resize-none bg-gray-50 ${formik.errors.content && formik.touched.content ? 'border-red-500' : 'border-gray-300'} focus:border-blue-400`}
-                                rows={2}
+                                className={`w-full p-3 border-2 -mt-7 rounded-xl outline-none resize-none bg-gray-50 ${formik.errors.content && formik.touched.content ? 'border-red-500' : 'border-gray-300'} focus:border-blue-400`}
+                                rows={1}
                             />
                         </div>
 
                         {/* Display API errors */}
                         {error && (
                             <div className='text-red-500 text-sm mt-2 flex items-center gap-1'>
-                                <span className='text-lg'>●</span>
                                 {error}
                             </div>
                         )}
