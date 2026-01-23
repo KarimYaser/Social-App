@@ -16,7 +16,7 @@ export default function useGetAllPosts() {
         try {
             setIsLoading(true)
             const options = {
-                url: 'https://linked-posts.routemisr.com/posts?limit=50&page=98',
+                url: 'https://linked-posts.routemisr.com/posts?limit=50&page=110',
                 method: 'GET',
                 headers: {
                     token: token,
